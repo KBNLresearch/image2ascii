@@ -28,8 +28,8 @@ def asciifyToFile(self, msg):
          classes='m-2 p-2 text-xl text-white bg-blue-500 hover:bg-blue-700')
 
 
-def pic_submit(self, msg):
-    """Submit image and generate preview"""
+def image_load(self, msg):
+    """Load image and generate preview"""
     self.file_div.delete_components()
     self.image_div.delete_components()
     for f in msg.files:
@@ -56,10 +56,11 @@ def createPage():
                    a=f,
                    multiple=False,
                    accept='image/*')
+    
     in1.file_div = jp.Div(a=wp)
     in1.image_div = jp.Div(a=image_div)
-    in1.on('input', pic_submit)
-    in1.on('change', pic_submit)
+    in1.on('input', image_load)
+    in1.on('change', image_load)
     
     b1 = jp.Button(type='submit',
                    text='Asciify',
