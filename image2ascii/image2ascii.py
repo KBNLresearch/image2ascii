@@ -10,11 +10,13 @@ __version__ = '0.1.0'
 # Set following variable as global as sharing them otherwise within
 # Justpy is a major PITA
 columnsOut = 150
+widthRatio = 2.2
 
 def asciifyToFile(self, msg):
     """Create ASCII art from file, write result to HTML file and generate link
     to result (which opens in a new browser tab)"""
     global columnsOut
+    global widthRatio
     self.out_div.delete_components()
     imageIn = self.imageRef[0].text
     nameOut = 'ascii.html'
@@ -22,7 +24,7 @@ def asciifyToFile(self, msg):
     my_art = AsciiArt.from_image(imageIn)
     my_art.to_html_file(htmlOut,
                         columns=columnsOut,
-                        width_ratio=2.2,
+                        width_ratio=widthRatio,
                         monochrome=False,
                         styles='background-color: black;')
 
@@ -47,6 +49,11 @@ def set_columns(self, msg):
     """Set number of columns"""
     global columnsOut
     columnsOut = self.value
+
+def set_widthratio(self, msg):
+    """Set width ratio"""
+    global widthRatio
+    widthRatio = self.value
 
 def createPage():
     """Create web page"""
@@ -84,10 +91,22 @@ def createPage():
     in2 = jp.Input(type='number',
                    classes=jp.Styles.input_classes,
                    a=f,
-                   value=150)
+                   value=columnsOut)
     in2.on('input', set_columns)
     in2.on('change',set_columns)
  
+     # Set width ratio
+    jp.Label(text='Width ratio',
+             classes='font-bold mb-2',
+             a=f)
+    in3 = jp.Input(type='number',
+                   step='0.1',
+                   classes=jp.Styles.input_classes,
+                   a=f,
+                   value=widthRatio)
+    in3.on('input', set_widthratio)
+    in3.on('change',set_widthratio)
+
     b1 = jp.Button(type='submit',
                    text='Asciify',
                    classes=jp.Styles.button_simple,
