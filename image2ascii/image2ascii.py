@@ -7,16 +7,21 @@ from ascii_magic import AsciiArt
 
 __version__ = '0.1.0'
 
+# Set following variable as global as sharing them otherwise within
+# Justpy is a major PITA
+columnsOut = 150
+
 def asciifyToFile(self, msg):
     """Create ASCII art from file, write result to HTML file and generate link
     to result (which opens in a new browser tab)"""
+    global columnsOut
     self.out_div.delete_components()
     imageIn = self.imageRef[0].text
     nameOut = 'ascii.html'
     htmlOut = os.path.abspath(nameOut)
     my_art = AsciiArt.from_image(imageIn)
     my_art.to_html_file(htmlOut,
-                        columns=200,
+                        columns=columnsOut,
                         width_ratio=2.2,
                         monochrome=False,
                         styles='background-color: black;')
@@ -35,8 +40,13 @@ def image_load(self, msg):
     for f in msg.files:
         print(f)
         jp.Div(text=os.path.abspath(f.name), a=self.file_div, classes='font-mono m-1 p-2')
-        jp.Img(src='/static/' + f.name, a=self.image_div, style = 'width: 650px')
+        jp.Img(src='/static/' + f.name, a=self.image_div, style = 'width: 700px')
 
+
+def set_columns(self, msg):
+    """Set number of columns"""
+    global columnsOut
+    columnsOut = self.value
 
 def createPage():
     """Create web page"""
@@ -51,6 +61,8 @@ def createPage():
     out_div = jp.Div(classes='font-mono m-1 p-2',
                      style='width: 80vh font-size: 6px background-color: black',
                      a=io_div)
+    
+    # Load file
     in1 = jp.Input(type='file',
                    classes=jp.Styles.input_classes,
                    a=f,
@@ -61,7 +73,16 @@ def createPage():
     in1.image_div = jp.Div(a=image_div)
     in1.on('input', image_load)
     in1.on('change', image_load)
-    
+
+    # Set number of columns 
+    in2 = jp.Input(type='number',
+                   classes=jp.Styles.input_classes,
+                   a=f,
+                   value=150)
+    in2.div = jp.Div(text='What you type will show up here', a=wp)
+    in2.on('input', set_columns)
+    in2.on('change',set_columns)
+ 
     b1 = jp.Button(type='submit',
                    text='Asciify',
                    classes=jp.Styles.button_simple,
