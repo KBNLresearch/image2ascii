@@ -63,6 +63,9 @@ def createPage():
                      a=io_div)
     
     # Load file
+    jp.Label(text='Image',
+             classes='font-bold mb-2',
+             a=f)
     in1 = jp.Input(type='file',
                    classes=jp.Styles.input_classes,
                    a=f,
@@ -74,12 +77,14 @@ def createPage():
     in1.on('input', image_load)
     in1.on('change', image_load)
 
-    # Set number of columns 
+    # Set number of columns
+    jp.Label(text='Columns',
+             classes='font-bold mb-2',
+             a=f)
     in2 = jp.Input(type='number',
                    classes=jp.Styles.input_classes,
                    a=f,
                    value=150)
-    in2.div = jp.Div(text='What you type will show up here', a=wp)
     in2.on('input', set_columns)
     in2.on('change',set_columns)
  
