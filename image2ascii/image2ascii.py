@@ -190,7 +190,7 @@ def createPage():
                    a=f2)
     b2.imageRef = f1.file_div
     b2.on('click', asciifyToFile)
-    b2.out_div = jp.Div(a=image_div)
+    b2.out_div = jp.Div(a=forms_div)
 
     return wp
 
