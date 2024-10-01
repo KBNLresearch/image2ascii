@@ -51,7 +51,6 @@ def asciifyToFile(self, msg):
 
 def image_load(self, msg):
     """Load image and generate preview"""
-    print("==== image_load ====")
     self.file_div.delete_components()
     self.image_div.delete_components()
     # First delete any old session dirs
@@ -61,14 +60,9 @@ def image_load(self, msg):
     os.mkdir(sessionDir)
     
     # Find the element in the form data that contains the file information
-    print('===== msg =======')
-    print(msg)
     for c in msg.form_data:
-        print('===== c =======')
         print(c)
         if c.type == 'file':
-            print('===== c.type = file =====')
-            print(c)
             break
     # Write the content to a file after decoding the base64 content
     myImages = []
@@ -81,8 +75,6 @@ def image_load(self, msg):
             myImages.append(fPathOut)
 
     for myImage in myImages:
-        print("==== myImages loop:")
-        print(myImage)
         with Image.open(myImage) as im:
             im.load()
             # Compute sensible width for display
@@ -96,19 +88,14 @@ def image_load(self, msg):
             print("Ratio = " + str(ratio))
         
         styleStr = 'width: ' + str(oWidth) + 'px'
-        print("=== styleStr: " + styleStr)
 
         # Internal "static" path used by justpy to render the image
         srcRef = '/static/' + msg.session_id + '/' + os.path.basename(myImage)
-        print(srcRef)
         jp.Div(text=myImage, a=self.file_div, classes='font-mono m-1 p-2')
 
         img1 = jp.Img(src=srcRef,
                       a=self.image_div,
                       style = styleStr)
-        print("==== IMAGEELT:")
-        print(img1)
-
 
 def set_columns(self, msg):
     """Set number of columns"""
