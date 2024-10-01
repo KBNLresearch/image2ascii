@@ -26,7 +26,8 @@ def find_version(*file_paths):
 INSTALL_REQUIRES = [
     'setuptools',
     'ascii_magic',
-    'justpy'
+    'justpy',
+    'html2image'
 ]
 
 PYTHON_REQUIRES = '>=3.7'

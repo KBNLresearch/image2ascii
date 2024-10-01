@@ -4,13 +4,16 @@ import os
 #from uvicorn import Config
 import justpy as jp
 from ascii_magic import AsciiArt
+from html2image import Html2Image
+from PIL import Image
 
 __version__ = '0.1.0'
 
-# Set following variable as global as sharing them otherwise within
-# Justpy is a major PITA
+# Set following variables as global as sharing them otherwise within
+# Justpy is a major PITA!
 columnsOut = 150
 widthRatio = 2.2
+colourFlag = True
 
 def asciifyToFile(self, msg):
     """Create ASCII art from file, write result to HTML file and generate link
@@ -18,15 +21,23 @@ def asciifyToFile(self, msg):
     global columnsOut
     global widthRatio
     self.out_div.delete_components()
-    imageIn = self.imageRef[0].text
+    imageIn = os.path.abspath(self.imageRef[0].text)
     nameOut = 'ascii.html'
     htmlOut = os.path.abspath(nameOut)
-    my_art = AsciiArt.from_image(imageIn)
+    with Image.open(imageIn) as im:
+        im.load()
+        my_art = AsciiArt.from_pillow_image(im)
     my_art.to_html_file(htmlOut,
                         columns=columnsOut,
                         width_ratio=widthRatio,
-                        monochrome=False,
+                        monochrome=True,
                         styles='background-color: black;')
+
+    # Convert HTML to image
+    hti = Html2Image()
+    hti.screenshot(
+        html_file=htmlOut, save_as='ascii.png'
+)
 
     jp.A(text='Link to ASCII art',
          href='/static/' + nameOut,
@@ -40,9 +51,21 @@ def image_load(self, msg):
     self.file_div.delete_components()
     self.image_div.delete_components()
     for f in msg.files:
-        print(f)
-        jp.Div(text=os.path.abspath(f.name), a=self.file_div, classes='font-mono m-1 p-2')
-        jp.Img(src='/static/' + f.name, a=self.image_div, style = 'width: 700px')
+        fPath = os.path.abspath(f.name)
+        with Image.open(fPath) as im:
+            # Compute sensible width for display
+            iHeight = im.height
+            iWidth =  im.width
+            vRatio = 700/iHeight
+            hRatio = 700/iWidth
+            ratio  = min(vRatio, hRatio)
+            oHeight = round(ratio*iHeight)
+            oWidth = round(ratio*iWidth)
+        
+        styleStr = 'width: ' + str(oWidth) + 'px'
+
+        jp.Div(text=fPath, a=self.file_div, classes='font-mono m-1 p-2')
+        jp.Img(src='/static/' + f.name, a=self.image_div, style = styleStr)
 
 
 def set_columns(self, msg):
@@ -57,18 +80,22 @@ def set_widthratio(self, msg):
 
 def createPage():
     """Create web page"""
+    global colourFlag
     wp = jp.WebPage()
-    f = jp.Form(enctype='multipart/form-data', a=wp)
+
     io_div = jp.Div(classes='m-2 p-2 overflow-auto border-4 flex flex-wrap content-start',
-                    style='height: 80vh',
+                    style='width: 80 vw height: 100vh',
                     a=wp)
     image_div = jp.Div(classes='m-1 p-2',
-                       style='width: 60vh',
+                       style='min-height: 500px',
                        a=io_div)
     out_div = jp.Div(classes='font-mono m-1 p-2',
-                     style='width: 80vh font-size: 6px background-color: black',
+                     style='height: 20vh font-size: 6px background-color: black',
                      a=io_div)
-    
+
+    f = jp.Form(enctype='multipart/form-data',
+                a=io_div,
+                style='height: 30vh')
     # Load file
     jp.Label(text='Image',
              classes='font-bold mb-2',
@@ -107,6 +134,16 @@ def createPage():
     in3.on('input', set_widthratio)
     in3.on('change',set_widthratio)
 
+    """
+    # Toggle between monochrome and colour
+    jp.Label(text='Colour output',
+             classes='font-bold mb-2',
+             a=f)
+    in4 = jp.Input(type='checkbox',
+                   classes='m-2 p-2 form-checkbox',
+                   a=f,
+                   model=colourFlag)
+    """
     b1 = jp.Button(type='submit',
                    text='Asciify',
                    classes=jp.Styles.button_simple,
