@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import os
+import base64
 #from uvicorn import Config
 import justpy as jp
 from ascii_magic import AsciiArt
@@ -45,11 +46,36 @@ def asciifyToFile(self, msg):
          a=self.out_div,
          classes='m-2 p-2 text-xl text-white bg-blue-500 hover:bg-blue-700')
 
-
 def image_load(self, msg):
     """Load image and generate preview"""
     self.file_div.delete_components()
     self.image_div.delete_components()
+
+    """
+    # If directory for session does not exist, create one
+    # The name of the directory is the session_id
+    if not os.path.isdir(msg.session_id):
+        os.mkdir(msg.session_id)
+    # Find the element in the form data that contains the file information
+    print('===== msg =======')
+    print(msg)   
+    for c in msg.form_data:
+        print('===== c =======')
+        print(c)
+        if c.type == 'file':
+            print('===== c.type = file =====')
+            print(c)
+            break
+    # Write the content to a file after decoding the base64 content
+    #for i, v in enumerate(c.files):
+    for f in msg.files:
+        print(type(f))
+        print('=============')
+        print(f)
+
+        #with open(f'{msg.session_id}/{v.name}', 'wb') as f:
+        #    f.write(base64.b64decode(v.file_content))
+    """
     for f in msg.files:
         fPath = os.path.abspath(f.name)
         with Image.open(fPath) as im:
@@ -67,7 +93,6 @@ def image_load(self, msg):
         jp.Div(text=fPath, a=self.file_div, classes='font-mono m-1 p-2')
         jp.Img(src='/static/' + f.name, a=self.image_div, style = styleStr)
 
-
 def set_columns(self, msg):
     """Set number of columns"""
     global columnsOut
@@ -83,19 +108,21 @@ def createPage():
     global colourFlag
     wp = jp.WebPage()
 
-    io_div = jp.Div(classes='m-2 p-2 overflow-auto border-4 flex flex-wrap content-start',
-                    style='width: 80 vw height: 100vh',
-                    a=wp)
-    image_div = jp.Div(classes='m-1 p-2',
-                       style='min-height: 500px',
-                       a=io_div)
-    out_div = jp.Div(classes='font-mono m-1 p-2',
-                     style='height: 20vh font-size: 6px background-color: black',
-                     a=io_div)
+    #io_div = jp.Div(classes='m-2 p-2 overflow-auto border-4 flex flex-wrap content-start',
+    #                style='width: 80 vw height: 100vh',
+    #                a=wp)
+    
+    image_div = jp.Div(classes='m-2 p-2 overflow-auto border-4 flex flex-wrap content-start',
+                       style='height: 70vh',
+                       a=wp)
+
+    out_div = jp.Div(classes='font-mono m-2 p-2',
+                     style='height: 20vh font-size: 6px',
+                     a=wp)
 
     f = jp.Form(enctype='multipart/form-data',
-                a=io_div,
-                style='height: 30vh')
+                a=wp,
+                style='height: 20vh')
     # Load file
     jp.Label(text='Image',
              classes='font-bold mb-2',
@@ -150,7 +177,7 @@ def createPage():
                    a=f)
     b1.imageRef = in1.file_div
     b1.on('click', asciifyToFile)
-    b1.out_div = jp.Div(a=out_div)
+    b1.out_div = jp.Div(a=image_div)
 
     return wp
 
@@ -159,7 +186,7 @@ def main():
     """Main function"""
     #config = Config('justpy.env')
     #STATIC_DIRECTORY = config('STATIC_DIRECTORY', cast=str, default=os.getcwd())
-    jp.justpy(createPage)
+    jp.justpy(createPage, websockets=False)
 
 
 if __name__ == "__main__":
