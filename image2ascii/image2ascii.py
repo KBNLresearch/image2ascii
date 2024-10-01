@@ -113,21 +113,27 @@ def createPage():
 
     wp = jp.WebPage()
    
-    image_div = jp.Div(classes='m-2 p-2 overflow-auto border-4 flex flex-wrap content-start',
-                       style='height: 70vh',
+    image_div = jp.Div(classes='m-2 p-2  border-4 flex flex-wrap content-start',
+                       style='height: 65vh',
                        a=wp)
 
-    forms_div = jp.Div(a=wp,
-                       style='height: 20vh')
+    form1_div = jp.Div(a=wp,
+                       classes='m-2 p-2 overflow-auto flex flex-wrap content-start',
+                       style='height: 7vh')
 
-    out_div = jp.Div(classes='font-mono m-2 p-2',
-                     style='height: 20vh font-size: 6px',
-                     a=wp)
+    form2_div = jp.Div(a=wp,
+                       classes='m-2 p-2 overflow-auto flex flex-wrap content-start',
+                       style='height: 7vh')
+
+    form3_div = jp.Div(a=wp,
+                       classes='m-2 p-2 overflow-auto flex flex-wrap content-start',
+                       style='height: 7vh')
 
     # Upload form
     f1 = jp.Form(enctype='multipart/form-data',
-                a=forms_div,
+                a=form1_div,
                 submit=image_load)
+
     # Load file
     jp.Label(text='Image',
              classes='font-bold mb-2',
@@ -148,7 +154,7 @@ def createPage():
 
     # Form for other input
     f2 = jp.Form(enctype='multipart/form-data',
-                a=forms_div)
+                a=form2_div)
 
     # Set number of columns
     jp.Label(text='Columns',
@@ -190,7 +196,11 @@ def createPage():
                    a=f2)
     b2.imageRef = f1.file_div
     b2.on('click', asciifyToFile)
-    b2.out_div = jp.Div(a=forms_div)
+
+    asciiLinkDiv = jp.Div(a=form3_div,
+                          classes='m-2 p-2 overflow-auto flex flex-wrap content-start')
+
+    b2.out_div = jp.Div(a=asciiLinkDiv)
 
     return wp
 
