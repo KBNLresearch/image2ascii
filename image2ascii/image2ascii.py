@@ -2,6 +2,7 @@
 
 import os
 import base64
+import logging
 #from uvicorn import Config
 import justpy as jp
 from ascii_magic import AsciiArt
@@ -106,6 +107,7 @@ def set_widthratio(self, msg):
 def createPage():
     """Create web page"""
     global colourFlag
+
     wp = jp.WebPage()
 
     #io_div = jp.Div(classes='m-2 p-2 overflow-auto border-4 flex flex-wrap content-start',
@@ -184,8 +186,6 @@ def createPage():
 
 def main():
     """Main function"""
-    #config = Config('justpy.env')
-    #STATIC_DIRECTORY = config('STATIC_DIRECTORY', cast=str, default=os.getcwd())
     jp.justpy(createPage, websockets=False)
 
 
