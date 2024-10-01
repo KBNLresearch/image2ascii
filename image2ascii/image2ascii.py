@@ -27,6 +27,8 @@ def asciifyToFile(self, msg):
     imageIn = os.path.abspath(self.imageRef[0].text)
     nameOut = 'ascii.html'
     htmlOut = os.path.abspath(nameOut)
+    txtOut = os.path.abspath('ascii.txt')
+
     with Image.open(imageIn) as im:
         im.load()
         my_art = AsciiArt.from_pillow_image(im)
@@ -36,11 +38,15 @@ def asciifyToFile(self, msg):
                         monochrome=True,
                         styles='background-color: black;')
 
+    my_art.to_file(txtOut,
+                   columns=columnsOut,
+                   width_ratio=widthRatio,
+                   monochrome=True)
+
     # Convert HTML to image
-    hti = Html2Image()
-    hti.screenshot(
-        html_file=htmlOut, save_as='ascii.png'
-)
+    #hti = Html2Image()
+    #hti.screenshot(
+    #    html_file=htmlOut, save_as='ascii.png')
 
     jp.A(text='Link to ASCII art',
          href='/static/' + nameOut,
