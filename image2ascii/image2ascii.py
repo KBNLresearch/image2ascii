@@ -117,14 +117,16 @@ def createPage():
                        style='height: 70vh',
                        a=wp)
 
+    forms_div = jp.Div(a=wp,
+                       style='height: 20vh')
+
     out_div = jp.Div(classes='font-mono m-2 p-2',
                      style='height: 20vh font-size: 6px',
                      a=wp)
 
     # Upload form
     f1 = jp.Form(enctype='multipart/form-data',
-                a=wp,
-                style='height: 20vh',
+                a=forms_div,
                 submit=image_load)
     # Load file
     jp.Label(text='Image',
@@ -146,8 +148,7 @@ def createPage():
 
     # Form for other input
     f2 = jp.Form(enctype='multipart/form-data',
-                a=wp,
-                style='height: 20vh')
+                a=forms_div)
 
     # Set number of columns
     jp.Label(text='Columns',
