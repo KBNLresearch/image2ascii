@@ -191,7 +191,7 @@ def createPage():
     """
                    
     b2 = jp.Button(type='submit',
-                   text='Asciify',
+                   text='Generate Ascii!',
                    classes=jp.Styles.button_simple,
                    a=f2)
     b2.imageRef = f1.file_div
