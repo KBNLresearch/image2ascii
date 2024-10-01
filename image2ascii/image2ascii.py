@@ -143,9 +143,7 @@ def createPage():
 
     f1.file_div = jp.Div(a=wp)
     f1.image_div = jp.Div(a=image_div)
-    #in1.image_div = jp.Div(a=image_div)
 
-    """
     # Form for other input
     f2 = jp.Form(enctype='multipart/form-data',
                 a=wp,
@@ -174,6 +172,7 @@ def createPage():
     in3.on('input', set_widthratio)
     in3.on('change',set_widthratio)
 
+    """
     # Toggle between monochrome and colour
     jp.Label(text='Colour output',
              classes='font-bold mb-2',
@@ -182,15 +181,15 @@ def createPage():
                    classes='m-2 p-2 form-checkbox',
                    a=f2,
                    model=colourFlag)
-
+    """
+                   
     b2 = jp.Button(type='submit',
                    text='Asciify',
                    classes=jp.Styles.button_simple,
                    a=f2)
-    b2.imageRef = in1.file_div
+    b2.imageRef = f1.file_div
     b2.on('click', asciifyToFile)
     b2.out_div = jp.Div(a=image_div)
-    """
 
     return wp
 
