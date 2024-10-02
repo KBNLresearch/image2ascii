@@ -32,9 +32,8 @@ def asciifyToFile(self, msg):
     with Image.open(imageIn) as im:
         im.load()
         myArt = AsciiArt.from_pillow_image(im)
-
-    # Adjust contrast
-    ImageEnhance.Contrast(myArt.image).enhance(contrast)
+        # Adjust contrast
+        myArt.image = ImageEnhance.Contrast(myArt.image).enhance(contrast)
 
     myArt.to_html_file(htmlOut,
                         columns=columnsOut,
@@ -221,6 +220,7 @@ def createPage():
                    classes=jp.Styles.input_classes,
                    a=f2,
                    value=contrast)
+    in4.imageRef = f1.file_div
     in4.on('input', set_contrast)
     in4.on('change',set_contrast)
 
