@@ -191,6 +191,7 @@ def createPage():
              classes='font-bold mb-2',
              a=f2)
     in2 = jp.Input(type='number',
+                   min='10',
                    classes=jp.Styles.input_classes,
                    a=f2,
                    value=columnsOut)
@@ -203,6 +204,8 @@ def createPage():
              a=f2)
     in3 = jp.Input(type='number',
                    step='0.1',
+                   max='5',
+                   min='0',
                    classes=jp.Styles.input_classes,
                    a=f2,
                    value=widthRatio)
@@ -215,6 +218,8 @@ def createPage():
              a=f2)
     in4 = jp.Input(type='number',
                    step='0.1',
+                   max='5',
+                   min='0',
                    classes=jp.Styles.input_classes,
                    a=f2,
                    value=contrast)
