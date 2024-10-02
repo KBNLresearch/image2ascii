@@ -134,20 +134,17 @@ def createPage():
     wp = jp.WebPage()
    
     image_div = jp.Div(classes='m-2 p-2  border-4 flex flex-wrap content-start',
-                       style='height: 65vh',
+                       style='display: block; margin: 0 auto; max-height: 100%; max-width: 100%',
                        a=wp)
 
     form1_div = jp.Div(a=wp,
-                       classes='m-2 p-2 overflow-auto flex flex-wrap content-start',
-                       style='height: 7vh')
+                       classes='m-2 p-2 overflow-auto flex flex-wrap content-start')
 
     form2_div = jp.Div(a=wp,
-                       classes='m-2 p-2 overflow-auto flex flex-wrap content-start',
-                       style='height: 7vh')
+                       classes='m-2 p-2 overflow-auto flex flex-wrap content-start')
 
     form3_div = jp.Div(a=wp,
-                       classes='m-2 p-2 overflow-auto flex flex-wrap content-start',
-                       style='height: 7vh')
+                       classes='m-2 p-2 overflow-auto flex flex-wrap content-start')
 
     # Upload form
     f1 = jp.Form(enctype='multipart/form-data',
