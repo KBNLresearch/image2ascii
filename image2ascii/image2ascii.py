@@ -34,7 +34,7 @@ def asciifyToFile(self, msg):
                         columns=columnsOut,
                         width_ratio=widthRatio,
                         monochrome=True,
-                        styles='background-color: black;')
+                        styles='background-color: white;')
 
     jp.A(text='Link to ASCII art',
          href='/static/' + nameOut,
@@ -118,7 +118,7 @@ def createPage():
     wp = jp.WebPage()
    
     image_div = jp.Div(classes='m-2 p-2  border-4 flex flex-wrap content-start',
-                       style='display: block; margin: 0 auto; max-height: 100%; max-width: 100%',
+                       styles='display: block; margin: 0 auto; max-height: 100%; max-width: 100%',
                        a=wp)
 
     form1_div = jp.Div(a=wp,
