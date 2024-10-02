@@ -215,7 +215,7 @@ def createPage():
              a=f2)
     in4 = jp.Input(type='number',
                    step='0.1',
-                   max='5',
+                   max='100',
                    min='0',
                    classes=jp.Styles.input_classes,
                    a=f2,
