@@ -7,7 +7,7 @@ import base64
 import lxml.html as lh
 import justpy as jp
 from ascii_magic import AsciiArt
-from html2image import Html2Image
+#from html2image import Html2Image
 from PIL import Image, ImageEnhance
 
 __version__ = '0.1.0'
