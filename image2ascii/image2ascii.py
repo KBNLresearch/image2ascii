@@ -35,14 +35,13 @@ def asciifyToFile(self, msg):
                         columns=columnsOut,
                         width_ratio=widthRatio,
                         monochrome=True,
-                        styles='background-color: black;'
-                        )
+                        styles='background-color: black;')
 
     ## TEST output to text file
-    my_art.to_file(txtOut,
-                   columns=columnsOut,
-                   width_ratio=widthRatio,
-                   monochrome=True)
+    #my_art.to_file(txtOut,
+    #               columns=columnsOut,
+    #               width_ratio=widthRatio,
+    #               monochrome=True)
 
     # Convert HTML to image
     #hti = Html2Image()
@@ -107,12 +106,9 @@ def image_load(self, msg):
         
         styleStr = 'width: ' + str(oWidth) + 'px'
 
-        ## TEST
-        debugStr = 'width: ' + str(oWidth) + '; height: ' + str(oHeight)
-
         # Internal "static" path used by justpy to render the image
         srcRef = '/static/' + msg.session_id + '/' + os.path.basename(myImage)
-        jp.Div(text=debugStr, a=self.file_div, classes='font-mono m-1 p-2')
+        jp.Div(text=myImage, a=self.file_div, classes='font-mono m-1 p-2')
 
         img1 = jp.Img(src=srcRef,
                       a=self.image_div,
