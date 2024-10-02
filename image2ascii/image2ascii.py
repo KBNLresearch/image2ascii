@@ -26,7 +26,6 @@ def asciifyToFile(self, msg):
     imageIn = os.path.abspath(self.imageRef[0].text)
     nameOut = 'ascii.html'
     htmlOut = os.path.abspath(nameOut)
-    txtOut = os.path.abspath('ascii.txt')
 
     with Image.open(imageIn) as im:
         im.load()
@@ -36,17 +35,6 @@ def asciifyToFile(self, msg):
                         width_ratio=widthRatio,
                         monochrome=True,
                         styles='background-color: black;')
-
-    ## TEST output to text file
-    #my_art.to_file(txtOut,
-    #               columns=columnsOut,
-    #               width_ratio=widthRatio,
-    #               monochrome=True)
-
-    # Convert HTML to image
-    #hti = Html2Image()
-    #hti.screenshot(
-    #    html_file=htmlOut, save_as='ascii.png')
 
     jp.A(text='Link to ASCII art',
          href='/static/' + nameOut,
