@@ -4,7 +4,7 @@ import os
 import glob
 import uuid
 import base64
-import time
+import lxml.html as lh
 import justpy as jp
 from ascii_magic import AsciiArt, Front, Back
 from html2image import Html2Image
@@ -30,11 +30,26 @@ def asciifyToFile(self, msg):
     with Image.open(imageIn) as im:
         im.load()
         my_art = AsciiArt.from_pillow_image(im)
+
     my_art.to_html_file(htmlOut,
                         columns=columnsOut,
                         width_ratio=widthRatio,
                         monochrome=True,
-                        styles='background-color: white;')
+                        styles='background-color: white;',
+                        additional_styles='span style="color: black"')
+
+    # Change span color attribute values to black (doesn't seem to be possible
+    # using ascii_magic functions directly)
+    root = lh.parse(htmlOut)
+    for el in root.iter('span'):
+        el.attrib['style'] = 'color: black'
+    myHtmlOut = lh.tostring(root,
+                            pretty_print=True,
+                            encoding='utf-8')
+
+    # Write modified HTML to file
+    with open(htmlOut, "wb") as f:
+        f.write(myHtmlOut)
 
     jp.A(text='Link to ASCII art',
          href='/static/' + nameOut,
