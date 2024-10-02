@@ -8,7 +8,7 @@ import lxml.html as lh
 import justpy as jp
 from ascii_magic import AsciiArt, Front, Back
 from html2image import Html2Image
-from PIL import Image
+from PIL import Image, ImageEnhance
 
 __version__ = '0.1.0'
 
@@ -16,12 +16,14 @@ __version__ = '0.1.0'
 # Justpy is a major PITA!
 columnsOut = 400
 widthRatio = 2.2
+contrast = 1.0
 
 def asciifyToFile(self, msg):
     """Create ASCII art from file, write result to HTML file and generate link
     to result (which opens in a new browser tab)"""
     global columnsOut
     global widthRatio
+    global contrast
     self.out_div.delete_components()
     imageIn = os.path.abspath(self.imageRef[0].text)
     nameOut = 'ascii.html'
@@ -29,9 +31,12 @@ def asciifyToFile(self, msg):
 
     with Image.open(imageIn) as im:
         im.load()
-        my_art = AsciiArt.from_pillow_image(im)
+        myArt = AsciiArt.from_pillow_image(im)
 
-    my_art.to_html_file(htmlOut,
+    # Adjust contrast
+    ImageEnhance.Contrast(myArt.image).enhance(contrast)
+
+    myArt.to_html_file(htmlOut,
                         columns=columnsOut,
                         width_ratio=widthRatio,
                         monochrome=True,
@@ -127,8 +132,17 @@ def set_widthratio(self, msg):
     global widthRatio
     widthRatio = self.value
 
+def set_contrast(self, msg):
+    """Set contrast"""
+    global contrast
+    contrast = self.value
+
 def createPage():
     """Create web page"""
+
+    global columnsOut
+    global widthRatio
+    global contrast
 
     wp = jp.WebPage()
    
@@ -194,7 +208,19 @@ def createPage():
                    value=widthRatio)
     in3.on('input', set_widthratio)
     in3.on('change',set_widthratio)
-                   
+
+    # Set contrast
+    jp.Label(text='Contrast',
+             classes='font-bold mb-2',
+             a=f2)
+    in4 = jp.Input(type='number',
+                   step='0.1',
+                   classes=jp.Styles.input_classes,
+                   a=f2,
+                   value=contrast)
+    in4.on('input', set_contrast)
+    in4.on('change',set_contrast)
+
     b2 = jp.Button(type='submit',
                    text='Generate Ascii!',
                    classes=jp.Styles.button_simple,
