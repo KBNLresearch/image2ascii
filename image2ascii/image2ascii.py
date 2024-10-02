@@ -1,12 +1,12 @@
 #! /usr/bin/env python3
 
 import os
-import shutil
+import glob
 import uuid
 import base64
 import time
 import justpy as jp
-from ascii_magic import AsciiArt
+from ascii_magic import AsciiArt, Front, Back
 from html2image import Html2Image
 from PIL import Image
 
@@ -14,9 +14,8 @@ __version__ = '0.1.0'
 
 # Set following variables as global as sharing them otherwise within
 # Justpy is a major PITA!
-columnsOut = 150
+columnsOut = 400
 widthRatio = 2.2
-colourFlag = True
 
 def asciifyToFile(self, msg):
     """Create ASCII art from file, write result to HTML file and generate link
@@ -36,8 +35,10 @@ def asciifyToFile(self, msg):
                         columns=columnsOut,
                         width_ratio=widthRatio,
                         monochrome=True,
-                        styles='background-color: black;')
+                        styles='background-color: black;'
+                        )
 
+    ## TEST output to text file
     my_art.to_file(txtOut,
                    columns=columnsOut,
                    width_ratio=widthRatio,
@@ -59,11 +60,19 @@ def image_load(self, msg):
     """Load image and generate preview"""
     self.file_div.delete_components()
     self.image_div.delete_components()
-    # First delete any old session dirs
+
+    # Session dir (used to store copy of uploaded image)
     sessionDir = os.path.abspath(msg.session_id)
-    shutil.rmtree(sessionDir)
-    # Create new session dir
-    os.mkdir(sessionDir)
+
+    # Create new session dir if it doesn't exist
+    if not os.path.isdir(sessionDir):
+        os.mkdir(sessionDir)
+
+    # Delete contents of session dir
+    if os.path.isdir(sessionDir):
+        filesSd = glob.glob(sessionDir + '/*')
+        for f in filesSd:
+            os.remove(f)
     
     # Find the element in the form data that contains the file information
     for c in msg.form_data:
@@ -115,7 +124,6 @@ def set_widthratio(self, msg):
 
 def createPage():
     """Create web page"""
-    global colourFlag
 
     wp = jp.WebPage()
    
@@ -184,17 +192,6 @@ def createPage():
                    value=widthRatio)
     in3.on('input', set_widthratio)
     in3.on('change',set_widthratio)
-
-    """
-    # Toggle between monochrome and colour
-    jp.Label(text='Colour output',
-             classes='font-bold mb-2',
-             a=f2)
-    in4 = jp.Input(type='checkbox',
-                   classes='m-2 p-2 form-checkbox',
-                   a=f2,
-                   model=colourFlag)
-    """
                    
     b2 = jp.Button(type='submit',
                    text='Generate Ascii!',
