@@ -6,7 +6,7 @@ import uuid
 import base64
 import lxml.html as lh
 import justpy as jp
-from ascii_magic import AsciiArt, Front, Back
+from ascii_magic import AsciiArt
 from html2image import Html2Image
 from PIL import Image, ImageEnhance
 
@@ -14,7 +14,7 @@ __version__ = '0.1.0'
 
 # Set following variables as global as sharing them otherwise within
 # Justpy is a major PITA!
-columnsOut = 400
+columnsOut = 200
 widthRatio = 2.2
 contrast = 1.0
 
@@ -108,9 +108,7 @@ def image_load(self, msg):
             vRatio = maxHeight/iHeight
             hRatio = maxWidth/iWidth
             ratio  = min(vRatio, hRatio)
-            oHeight = round(ratio*iHeight)
             oWidth = round(ratio*iWidth)
-            print("Ratio = " + str(ratio))
         
         styleStr = 'width: ' + str(oWidth) + 'px'
 
@@ -118,9 +116,9 @@ def image_load(self, msg):
         srcRef = '/static/' + msg.session_id + '/' + os.path.basename(myImage)
         jp.Div(text=myImage, a=self.file_div, classes='font-mono m-1 p-2')
 
-        img1 = jp.Img(src=srcRef,
-                      a=self.image_div,
-                      style = styleStr)
+        jp.Img(src=srcRef,
+               a=self.image_div,
+               style = styleStr)
 
 def set_columns(self, msg):
     """Set number of columns"""
