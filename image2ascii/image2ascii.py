@@ -89,14 +89,17 @@ def image_load(self, msg):
             f.write(base64.b64decode(v.file_content))
             myImages.append(fPathOut)
 
+    # Maximum image display dimensions (in pixels)
+    maxHeight = 550
+    maxWidth = 800
     for myImage in myImages:
         with Image.open(myImage) as im:
             im.load()
             # Compute sensible width for display
             iHeight = im.height
             iWidth =  im.width
-            vRatio = 700/iHeight
-            hRatio = 700/iWidth
+            vRatio = maxHeight/iHeight
+            hRatio = maxWidth/iWidth
             ratio  = min(vRatio, hRatio)
             oHeight = round(ratio*iHeight)
             oWidth = round(ratio*iWidth)
@@ -104,9 +107,12 @@ def image_load(self, msg):
         
         styleStr = 'width: ' + str(oWidth) + 'px'
 
+        ## TEST
+        debugStr = 'width: ' + str(oWidth) + '; height: ' + str(oHeight)
+
         # Internal "static" path used by justpy to render the image
         srcRef = '/static/' + msg.session_id + '/' + os.path.basename(myImage)
-        jp.Div(text=myImage, a=self.file_div, classes='font-mono m-1 p-2')
+        jp.Div(text=debugStr, a=self.file_div, classes='font-mono m-1 p-2')
 
         img1 = jp.Img(src=srcRef,
                       a=self.image_div,
