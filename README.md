@@ -54,9 +54,13 @@ Hit the "Browse" button, and navigate to the image you want to process. Then cli
 
 ![](./img/image2ascii-2.png)
 
+## Generate ASCII art
+
 Adjust the "Columns", "Width ratio" and "Contrast" controls to taste. Note that these controls *only* influence the the generated ASCII art (so e.g. changing the "Contrast" value does not affect the image that is shown). Then click the "Generate ASCII" button. At the bottom-left a "Link to ASCII art" button appears:
 
 ![](./img/image2ascii-3.png)
+
+## View ASCII art
 
 Click the button to open the generate ASCII art (as HTML) in a new browser tab:
 
