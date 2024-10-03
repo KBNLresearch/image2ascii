@@ -8,7 +8,7 @@ import lxml.html as lh
 import justpy as jp
 from ascii_magic import AsciiArt
 #from html2image import Html2Image
-from PIL import Image, ImageEnhance, ImageOps  
+from PIL import Image, ImageEnhance, ImageOps
 
 __version__ = '0.1.0'
 
@@ -144,6 +144,8 @@ def createPage():
     global contrast
 
     wp = jp.WebPage()
+    wp.use_websockets = False
+    wp.title = "ASCII Art Generator"
    
     image_div = jp.Div(classes='m-2 p-2  border-4 flex flex-wrap content-start',
                        styles='display: block; margin: 0 auto; max-height: 100%; max-width: 100%',
@@ -243,7 +245,7 @@ def createPage():
 
 def main():
     """Main function"""
-    jp.justpy(createPage, websockets=False)
+    jp.justpy(createPage)
 
 
 if __name__ == "__main__":
