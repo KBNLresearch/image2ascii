@@ -27,8 +27,7 @@ INSTALL_REQUIRES = [
     'setuptools',
     'ascii_magic',
     'justpy',
-    'lxml',
-    'html2image'
+    'lxml'
 ]
 
 PYTHON_REQUIRES = '>=3.7'
