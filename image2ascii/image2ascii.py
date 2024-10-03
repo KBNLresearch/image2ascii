@@ -7,7 +7,7 @@ import base64
 import lxml.html as lh
 import justpy as jp
 from ascii_magic import AsciiArt
-#from html2image import Html2Image
+from html2image import Html2Image
 from PIL import Image, ImageEnhance, ImageOps
 
 __version__ = '0.1.0'
@@ -26,8 +26,10 @@ def asciifyToFile(self, msg):
     global contrast
     self.out_div.delete_components()
     imageIn = os.path.abspath(self.imageRef[0].text)
-    nameOut = 'ascii.html'
-    htmlOut = os.path.abspath(nameOut)
+    nameOutHtml = 'ascii.html'
+    nameOutPng = 'ascii.png'
+    htmlOut = os.path.abspath(nameOutHtml)
+    pngOut = os.path.abspath(nameOutPng)
     with Image.open(imageIn) as im:
         im.load()
         myArt = AsciiArt.from_pillow_image(im)
@@ -57,8 +59,13 @@ def asciifyToFile(self, msg):
     with open(htmlOut, "wb") as f:
         f.write(myHtmlOut)
 
+    # Convert HTML to PNG
+    #hti = Html2Image()
+    #hti.screenshot(html_file=htmlOut,
+    #               save_as=pngOut)
+
     jp.A(text='Link to ASCII art',
-         href='/static/' + nameOut,
+         href='/static/' + nameOutHtml,
          target='_blank',
          a=self.out_div,
          classes='m-2 p-2 text-xl text-white bg-blue-500 hover:bg-blue-700')
