@@ -20,7 +20,7 @@ Then:
 
 ## Running img2ascii
 
-Open a terminal or command prompt, and navigate to the directory you created in the previous step. Depending on your OS, start the software with the following command:
+Open a terminal, command prompt or PowerShell window, and navigate to the directory you created in the previous step. Depending on your OS, start the software with the following command:
 
 ```
 python3 image2ascii.py
@@ -65,6 +65,10 @@ Adjust the "Columns", "Width ratio" and "Contrast" controls to taste. Note that 
 Click the button to open the generate ASCII art (as HTML) in a new browser tab:
 
 ![](./img/image2ascii-4.png)
+
+## Terminate img2ascii
+
+To stop *img2ascii*, hit `Ctrl-C` from the terminal or command prompt.
 
 ## Browser notes
 
