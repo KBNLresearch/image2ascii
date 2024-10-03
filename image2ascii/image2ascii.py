@@ -8,7 +8,7 @@ import lxml.html as lh
 import justpy as jp
 from ascii_magic import AsciiArt
 #from html2image import Html2Image
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageOps  
 
 __version__ = '0.1.0'
 
@@ -32,6 +32,8 @@ def asciifyToFile(self, msg):
     with Image.open(imageIn) as im:
         im.load()
         myArt = AsciiArt.from_pillow_image(im)
+        # Invert
+        myArt.image = ImageOps.invert(myArt.image)
         # Adjust contrast
         myArt.image = ImageEnhance.Contrast(myArt.image).enhance(contrast)
 
