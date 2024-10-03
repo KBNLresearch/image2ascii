@@ -24,28 +24,34 @@ def asciifyToFile(self, msg):
     global columnsOut
     global widthRatio
     global contrast
+    print("=== asciiToFile ===")
     self.out_div.delete_components()
     imageIn = os.path.abspath(self.imageRef[0].text)
     nameOut = 'ascii.html'
     htmlOut = os.path.abspath(nameOut)
-
     with Image.open(imageIn) as im:
+        print("=== Image.open(imageIn) ===")
         im.load()
         myArt = AsciiArt.from_pillow_image(im)
+        # Convert image to RGB to get rid of any alpha channels
+        myArt.image = myArt.image.convert('RGB')
         # Invert
+        print("=== invert ==")
         myArt.image = ImageOps.invert(myArt.image)
         # Adjust contrast
+        print("=== contrast ==")
         myArt.image = ImageEnhance.Contrast(myArt.image).enhance(contrast)
 
+    print("=== to_html_file ==")
     myArt.to_html_file(htmlOut,
                         columns=columnsOut,
                         width_ratio=widthRatio,
                         monochrome=True,
-                        styles='background-color: white;',
-                        additional_styles='span style="color: black"')
+                        styles='background-color: white;')
 
     # Change span color attribute values to black (doesn't seem to be possible
     # using ascii_magic functions directly)
+    print("=== parse html ==")
     root = lh.parse(htmlOut)
     for el in root.iter('span'):
         el.attrib['style'] = 'color: black'
@@ -53,10 +59,12 @@ def asciifyToFile(self, msg):
                             pretty_print=True,
                             encoding='utf-8')
 
+    print("=== write html ==")
     # Write modified HTML to file
     with open(htmlOut, "wb") as f:
         f.write(myHtmlOut)
 
+    print("=== generate link to ASCII art ==")
     jp.A(text='Link to ASCII art',
          href='/static/' + nameOut,
          target='_blank',
