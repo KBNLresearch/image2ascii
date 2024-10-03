@@ -1,5 +1,7 @@
 # Image2ascii
 
+Generate printable ASCII art from images in a user-friendly browser interface. 
+
 ## Installation
 
 This software was tested with Python 3.8.10. Older versions may not work.
