@@ -32,7 +32,7 @@ or (Windows):
 python image2ascii.py
 ```
 
-If all goes welll you should see something like this:
+You should see something like this:
 
 ```
 /home/johan/.local/lib/python3.8/site-packages/justpy
@@ -44,11 +44,39 @@ Then open the below link in your web browser (preferrably Firefox, see comments 
 
 <http://127.0.0.1:8000/>
 
-If all 
+If all goes well, this should open the Image2ascii web interface:
 
-### Positional arguments
+![](./img/image2ascii-1.png)
 
-### Optional arguments
+## Upload image
+
+Hit the "Browse" button, and navigate to the image you want to process. Then click the "Upload" button, after which the image is displayed:
+
+![](./img/image2ascii-2.png)
+
+Adjust the "Columns", "Width ratio" and "Contrast" controls to taste. Note that these controls *only* influence the the generated ASCII art (so e.g. changing the "Contrast" value does not affect the image that is shown). Then click the "Generate ASCII" button. At the bottom-left a "Link to ASCII art" button appears:
+
+![](./img/image2ascii-3.png)
+
+Click the button to open the generate ASCII art (as HTML) in a new browser tab:
+
+![](./img/image2ascii-4.png)
+
+## Browser notes
+
+The main goal of this software was to create ASCII art that can be printed at a (more or less) user-defined size. This works quite well in Firefox, using its "Fit to page width" and "Scale" options:
+
+![](./img/image2ascii-5.png)
+
+Chromium doesn't appear to support either of these options.
+
+Another thing I noticed, is that Chromium's file browse dialogue always starts at a standard system directory. This means you'll end up clicking through several directory levels to the location where your input images are located, which can get very tedious.
+
+Firefox on the other hands seems to remember the most recently used upload directory, which makes the upload process much smoother.
+
+It's *not* possible to set any defaults for this in the code; this is entirely up to the browser and the oprating system.
+
+Based on these observations, it's probably best to avoid any Chrome-based browsers with this software, and use Firefox instead.
 
 ## Licensing
 
